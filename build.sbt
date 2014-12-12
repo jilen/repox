@@ -1,3 +1,6 @@
+import com.typesafe.sbt.SbtNativePackager._
+import NativePackagerKeys._
+
 name := "repox"
 
 organization := "com.gtan"
@@ -48,3 +51,10 @@ assemblyMergeStrategy in assembly := {
   case x =>
     (assemblyMergeStrategy in assembly).value.apply(x)
 }
+
+scalacOptions ++= Seq(
+  "-feature",
+  "-language:postfixOps"
+)
+
+packageArchetype.java_application
