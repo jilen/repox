@@ -3,6 +3,8 @@ import NativePackagerKeys._
 
 name := "repox"
 
+version := "0.0.1"
+
 organization := "com.gtan"
 
 scalaVersion := "2.11.4"
@@ -57,4 +59,14 @@ scalacOptions ++= Seq(
   "-language:postfixOps"
 )
 
-packageArchetype.java_application
+packageArchetype.java_server
+
+maintainer in Linux := "repox"
+
+rpmVendor in Rpm := "repox"
+
+rpmLicense in Rpm := Some("http://opensource.org/licenses/MIT")
+
+packageSummary in Rpm := "A lightweight fast artificats repository / proxy"
+
+packageDescription in Rpm := "A lightweight fast artificats repository / proxy"
