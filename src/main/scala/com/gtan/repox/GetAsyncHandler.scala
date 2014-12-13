@@ -1,6 +1,7 @@
 package com.gtan.repox
 
 import java.io.{FileOutputStream, File, OutputStream}
+import java.nio.file.Files
 import java.util.concurrent.atomic.AtomicBoolean
 
 import akka.actor.{ReceiveTimeout, PoisonPill, ActorRef}
@@ -113,7 +114,7 @@ class GetAsyncHandler(val uri: String, val repo: Repo, val worker: ActorRef, val
   private def newTempFile() = {
     val parent = new File(Config.tempDirectory)
     parent.mkdirs()
-    new File(parent, s"repox-${System.nanoTime}.tmp")
+    Files.createTempFile(parent.toPath(), "repox", ".tmp").toFile
   }
 
 }
