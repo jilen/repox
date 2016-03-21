@@ -75,4 +75,37 @@ assemblyMergeStrategy in assembly := {
     (assemblyMergeStrategy in assembly).value.apply(x)
 }
 
-mainClass in assembly := Some("com.gtan.repox.Main")
+
+mainClass in Compile := Some("com.gtan.repox.Main")
+
+/* package settings */
+
+enablePlugins(JavaServerAppPackaging)
+
+rpmLicense := Some("MIT")
+
+
+mappings in Universal := {
+  val universalMappings = (mappings in Universal).value
+  val fatJar = (assembly in Compile).value
+  val filtered = universalMappings filter {
+    case (file, name) =>  ! name.endsWith(".jar")
+  }
+  filtered :+ (fatJar -> s"lib/${fatJar.getName}")
+}
+
+scriptClasspath := Seq( (jarName in assembly).value )
+
+javaOptions in Universal ++= Seq(
+  s"-Dconfig.file=/usr/share/${packageName.value}/conf/appliction.conf",
+  s"-Dlogger.file=/usr/share/${packageName.value}/conf/logback.xml"
+)
+
+rpmVendor := organization.value
+
+//rpm doesnt like snapshot as version number
+version in Rpm := version.value.replace("-SNAPSHOT", "")
+
+linuxPackageMappings += packageTemplateMapping(s"/var/lib/${packageName.value}/storage")().withUser(name.value).withGroup(name.value)
+
+maintainer := name.value
