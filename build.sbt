@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.archetypes.ServerLoader
+
 name := "repox"
 
 organization := "com.gtan"
@@ -109,3 +111,5 @@ version in Rpm := version.value.replace("-SNAPSHOT", "")
 linuxPackageMappings += packageTemplateMapping(s"/var/lib/${packageName.value}/storage")().withUser(name.value).withGroup(name.value)
 
 maintainer := name.value
+
+serverLoading in Debian := ServerLoader.Systemd
